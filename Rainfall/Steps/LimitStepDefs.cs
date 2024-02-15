@@ -1,43 +1,55 @@
-﻿namespace Rainfall.Steps;
+﻿using NUnit.Framework;
+using RestSharp;
+using System;
+using Rainfall.Services;
+using TechTalk.SpecFlow;
 
-[Binding]
-public class LimitStepDefs
+namespace Rainfall.Steps
 {
-    [When(@"User send a GET request is made for an individual station ""(.*)"" for ""(.*)"" parameter with a limit parameter set to (.*)")]
-    public void WhenUserSendAgetRequestIsMadeForAnIndividualStationForParameterWithALimitParameterSetTo(string p0, string rainfall, int p2)
+    [Binding]
+    public class LimitStepDefs
     {
-        
-        
-        
-    }
-    
-    
-    [Then(@"the response status code should be (.*)")]
-    public void ThenTheResponseStatusCodeShouldBe(int p0)
-    {
-        
-        
-       
-    }
-    
-    [Then(@"the API should respond with a list containing no more than (.*) rainfall measurements")]
-    public void ThenTheApiShouldRespondWithAListContainingNoMoreThanRainfallMeasurements(int p0)
-    {
-        
-        
-        
-    }
-    
-    
+        private SizeLimit sizeLimit;
 
-    [Then(@"each measurement should have (.*) relevant information")]
-    public void ThenEachMeasurementShouldHaveRelevantInformation(int p0)
-    {
+        public LimitStepDefs()
+        {
+            sizeLimit = new SizeLimit();
+        }
         
+
+        [When(
+            @"User send a GET request is made for an individual station ""(.*)"" for ""(.*)"" parameter with a limit parameter set to (.*)")]
+        public void WhenUserSendAgetRequestIsMadeForAnIndividualStationForParameterWithALimitParameterSetTo(string stationId,
+            string rainfall, int limitSize)
+        {
+
+         sizeLimit.GetMeasurementWithSizeLimit(stationId,rainfall,limitSize);
+
+        }
         
-       
+        [Then(@"the response status code should be (.*)")]
+        public void ThenTheResponseStatusCodeShouldBe(int statusCode)
+        {
+
+         sizeLimit.VerifyStatusCode(statusCode);
+
+        }
+
+        [Then(@"the API should respond with a list containing no more than (.*) rainfall measurements")]
+        public void ThenTheApiShouldRespondWithAListContainingNoMoreThanRainfallMeasurements(int limit)
+        {
+         sizeLimit.VerifySizeLimit(limit);
+         
+        }
+        
+        [Then(@"each measurement should have (.*) relevant information")]
+        public void ThenEachMeasurementShouldHaveRelevantInformation(int itemsSize)
+        {
+         sizeLimit.CheckItemsSize(itemsSize);
+         
+        }
+
+
+
     }
-
-
-    
 }
