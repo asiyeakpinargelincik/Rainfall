@@ -16,6 +16,7 @@ According to this requirements,the task had been done using
 -NUnit framework for assetion
 -Newtonsoft.Json.Ling for Json parsing
 -Unit test runner
+-Specflow framework and Gherkin language
 
 This task needs some improvement like hook class and ConfigFile to store configuration key and values.
 This fetures needs more negative scenarios and comprehensive positive tests for sufficient test covarage.
