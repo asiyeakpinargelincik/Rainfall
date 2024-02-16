@@ -51,34 +51,33 @@ namespace Rainfall.Steps
 
 
         [When(@"User requests rainfall measurements for station ID ""(.*)"" on date ""(.*)""")]
-        public void WhenUserRequestsRainfallMeasurementsForStationIdOnDate(string p0, string p1)
+        public void WhenUserRequestsRainfallMeasurementsForStationIdOnDate(string stationId, string specificDate)
         {
-           
+           sizeLimit.GetMeasurementWithSpecificDateForSpecificStation(stationId,specificDate);
             
             
             
         }
 
         [Then(@"API should respond with status code (.*)")]
-        public void ThenApiShouldRespondWithStatusCode(int p0)
+        public void ThenApiShouldRespondWithStatusCode(int statusCode)
         {
+            sizeLimit.VerifyStatusCode(statusCode);
            
         }
 
 
         [Then(@"Response should include the ""(.*)"" on date ""(.*)""details")]
-        public void ThenResponseShouldIncludeTheOnDateDetails(string p0, string p1)
+        public void ThenResponseShouldIncludeTheOnDateDetails(string stationId,string specificDate)
         {
-            
+           sizeLimit.ContentChecker(stationId,specificDate); 
             
         }
-
-
+        
         [Then(@"Response should include valid JSON format")]
         public void ThenResponseShouldIncludeValidJsonFormat()
         {
-           
-            
+            sizeLimit.VerifyContentType();
             
         }
     }
